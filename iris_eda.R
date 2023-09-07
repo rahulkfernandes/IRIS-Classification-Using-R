@@ -1,7 +1,3 @@
-# Install Required Packages
-install.packages("tidyverse")
-install.packages("GGally")
-
 # Load IRIS Dataset
 library(datasets)
 iris <- datasets::iris
@@ -80,5 +76,6 @@ library(GGally)
 ggpairs(iris,
         columns = 1:4,
         aes(color = Species),
-        upper = list(continuous = "points", combo = "box_no_facet")
+        upper = list(continuous = "points", combo = "box_no_facet"),
+        legend = 2
         )
