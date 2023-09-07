@@ -14,7 +14,7 @@ TestingSet <- iris[-TrainingIndex,]
 
 ########## SVM ##########
 # Build Training Model
-Model <- train(Species ~ ., data = TrainingSet,
+svmModel <- train(Species ~ ., data = TrainingSet,
                method = "svmPoly",
                na.action = na.omit,
                preProcess=c("scale","center"),
@@ -23,7 +23,7 @@ Model <- train(Species ~ ., data = TrainingSet,
                )
 
 # Build Cross Validation model
-Model.cv <- train(Species ~ ., data = TrainingSet,
+svmModel.cv <- train(Species ~ ., data = TrainingSet,
                   method = "svmPoly",
                   na.action = na.omit,
                   preProcess=c("scale","center"),
@@ -32,19 +32,54 @@ Model.cv <- train(Species ~ ., data = TrainingSet,
                   )
 
 # Prediction
-Model.training <- predict(Model, TrainingSet)
-Model.testing <- predict(Model, TestingSet)
-Model.cv <- predict(Model.cv, TrainingSet)
+svmModel.training <- predict(svmModel, TrainingSet)
+svmModel.testing <- predict(svmModel, TestingSet)
+svmModel.cv <- predict(svmModel.cv, TrainingSet)
 
 # Model performance
-Model.training.confusion <- confusionMatrix(Model.training, TrainingSet$Species)
-Model.testing.confusion <- confusionMatrix(Model.testing, TestingSet$Species)
-Model.cv.confusion <- confusionMatrix(Model.cv, TrainingSet$Species)
+svmModel.training.confusion <- confusionMatrix(svmModel.training,
+                                               TrainingSet$Species
+                                               )
+svmModel.testing.confusion <- confusionMatrix(svmModel.testing,
+                                              TestingSet$Species
+                                              )
+svmModel.cv.confusion <- confusionMatrix(svmModel.cv,
+                                         TrainingSet$Species
+                                         )
 
-print(Model.training.confusion)
-print(Model.testing.confusion)
-print(Model.cv.confusion)
+# Print Confusion Matrix
+print(svmModel.training.confusion)
+print(svmModel.testing.confusion)
+print(svmModel.cv.confusion)
 
 # Feature importance
-Importance <- varImp(Model)
+Importance <- varImp(svmModel)
 plot(Importance, col = "red")
+
+########## KNN ##########
+# Building the Model
+ctrl <- trainControl(method="repeatedcv", repeats = 3)
+knnModel <- train(Species ~ ., data = TrainingSet,
+                method = "knn",
+                trControl = ctrl,
+                preProcess = c("scale", "center"),
+                tuneLength = 20
+                )
+
+plot(knnModel)
+
+# Prediction
+knnModel.training <- predict(knnModel, TrainingSet)
+knnModel.testing <- predict(knnModel, TestingSet)
+
+# Model Performance
+knnModel.training.confusion <- confusionMatrix(knnModel.training,
+                                               TrainingSet$Species
+                                               )
+knnModel.testing.confusion <- confusionMatrix(knnModel.testing,
+                                              TestingSet$Species
+                                              )
+
+# Print Confusion Matrix
+print(knnModel.training.confusion)
+print(knnModel.testing.confusion)
