@@ -73,3 +73,12 @@ ggplot(iris) +
 ggplot(iris) +
   geom_point(aes(x=Petal.Width, y=Petal.Length, color=Species)) +
   facet_wrap(~Species)
+
+library(GGally)
+
+# Pair Plot
+ggpairs(iris,
+        columns = 1:4,
+        aes(color = Species),
+        upper = list(continuous = "points", combo = "box_no_facet")
+        )
