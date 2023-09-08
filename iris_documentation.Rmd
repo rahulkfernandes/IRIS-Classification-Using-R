@@ -1,0 +1,165 @@
+---
+title: "IRIS Classification"
+author: "Rahul Fernandes"
+date: "2023-09-08"
+output: html_document
+---
+
+## Description
+
+The IRIS Classification Using R repository conducts exploratory data analysis on the IRIS dataset and a Polynomial Support Vector Machine classification model is build to classify the three species of Iris flowers.
+
+## Setting up the environment
+
+Loading Requirements
+
+```{r loading packages, message=FALSE}
+library(datasets)
+library(dplyr)
+library(ggplot2)
+library(GGally)
+library(caret)
+```
+
+## Exploratory Data Analysis
+```{r include=FALSE}
+iris <- datasets::iris
+```
+#### Descriptive Statistics
+Summary of Statistics for the whole Dataset
+```{r echo=FALSE}
+summary(iris)
+```
+Descriptive statistics for Sepal Length by Species
+```{r echo=FALSE}
+iris %>% 
+  group_by(Species) %>% summarize(
+    mean(Sepal.Length), sd(Sepal.Length), min(Sepal.Length), max(Sepal.Length)
+    )
+```
+Descriptive statistics for Sepal Width by Species
+```{r echo=FALSE}
+iris %>% 
+  group_by(Species) %>% summarize(
+    mean(Sepal.Width), sd(Sepal.Width), min(Sepal.Width), max(Sepal.Width)
+    )
+```
+Descriptive statistics for Petal Length by Species
+```{r echo=FALSE}
+iris %>% 
+  group_by(Species) %>% summarize(
+    mean(Petal.Length), sd(Petal.Length), min(Petal.Length), max(Petal.Length)
+  )
+```
+Descriptive statistics for Petal Width by Species
+```{r echo=FALSE}
+iris %>% 
+  group_by(Species) %>% summarize(
+    mean(Petal.Width), sd(Petal.Width), min(Petal.Width), max(Petal.Width)
+  )
+```
+
+#### Relationship Between Sepal and Petal Features
+```{r echo=FALSE}
+ggplot(iris) +
+  geom_point(aes(x=Sepal.Width, y=Sepal.Length), color="red") +
+    labs(title = "Sepal Width vs Sepal Length")
+```
+
+```{r echo=FALSE}
+ggplot(iris) +
+  geom_point(aes(x=Petal.Width, y=Petal.Length), color="blue") +
+  labs(title = "Petal Width vs Petal Length")
+```
+
+#### Relationship Between Features and Species
+```{r echo=FALSE}
+# Relationship Sepal and Species
+ggplot(iris) +
+  geom_point(aes(x=Sepal.Width, y=Sepal.Length, color=Species)) +
+  facet_wrap(~Species) +
+  labs(title = "Relationship Between Sepal and Species")
+```
+
+```{r echo=FALSE}
+# Relationship Petal and Species
+ggplot(iris) +
+  geom_point(aes(x=Petal.Width, y=Petal.Length, color=Species)) +
+  facet_wrap(~Species) +
+  labs(title = "Relationship Between Petal and Species")
+```
+
+```{r echo=FALSE}
+ggpairs(iris,
+        columns = 1:4,
+        aes(color = Species),
+        upper = list(continuous = "points", combo = "box_no_facet"),
+        legend = 2,
+        title = "Relationship Between Features by Species"
+        )
+```
+
+## Inference From Analysis
+
+## Classification
+#### Splitting Dataset
+80% of the data set is taken for training and the rest 20% is taken for testing the trained model
+```{r}
+set.seed(100)
+
+TrainingIndex <- createDataPartition(iris$Species, p=0.8, list = FALSE)
+TrainingSet <- iris[TrainingIndex,]
+TestingSet <- iris[-TrainingIndex,]
+```
+
+```{r}
+# Build Training Model
+svmModel <- train(Species ~ ., data = TrainingSet,
+               method = "svmPoly",
+               na.action = na.omit,
+               preProcess=c("scale","center"),
+               trControl= trainControl(method="none"),
+               tuneGrid = data.frame(degree=1,scale=1,C=1)
+               )
+
+# Build Cross Validation model
+svmModel.cv <- train(Species ~ ., data = TrainingSet,
+                  method = "svmPoly",
+                  na.action = na.omit,
+                  preProcess=c("scale","center"),
+                  trControl= trainControl(method="cv", number=10),
+                  tuneGrid = data.frame(degree=1,scale=1,C=1)
+                  )
+```
+
+```{r}
+svmModel.training <- predict(svmModel, TrainingSet)
+svmModel.cv <- predict(svmModel.cv, TrainingSet)
+svmModel.testing <- predict(svmModel, TestingSet)
+```
+
+```{r}
+# Model performance
+svmModel.training.confusion <- confusionMatrix(svmModel.training,
+                                               TrainingSet$Species
+                                               )
+svmModel.cv.confusion <- confusionMatrix(svmModel.cv,
+                                         TrainingSet$Species
+                                         )
+svmModel.testing.confusion <- confusionMatrix(svmModel.testing,
+                                              TestingSet$Species
+                                              )
+```
+
+```{r}
+# Print Confusion Matrix
+print(svmModel.training.confusion)
+print(svmModel.cv.confusion)
+print(svmModel.testing.confusion)
+```
+
+```{r echo=FALSE}
+# Feature importance
+Importance <- varImp(svmModel)
+plot(Importance, col = "red")
+```

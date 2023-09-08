@@ -1,5 +1,9 @@
-# Load IRIS Dataset
+# Load libraries
+library(dplyr)
+library(GGally)
+library(ggplot2)
 library(datasets)
+
 iris <- datasets::iris
 
 View(iris)
@@ -13,10 +17,7 @@ summary(iris)
 # To check for missing values
 sum(is.na(iris))
 
-
 # Statistics grouped by Species
-library(dplyr)
-
 iris %>% 
   group_by(Species) %>% summarize(
     mean(Sepal.Length), sd(Sepal.Length), min(Sepal.Length), max(Sepal.Length)
@@ -42,40 +43,49 @@ iris %>%
 
 plot(iris, col = "blue")
 
-library(ggplot2)
-
 # Scatter Plot
 ggplot(iris) +
-  geom_point(aes(x=Sepal.Width, y=Sepal.Length), color="red")
+  geom_point(aes(x=Sepal.Width, y=Sepal.Length), color="red") +
+  labs(title = "Sepal Width vs Sepal Length")
 
 ggplot(iris)+
-  geom_point(aes(x=Petal.Width, y=Petal.Length), color="blue")
+  geom_point(aes(x=Petal.Width, y=Petal.Length), color="blue") +
+  labs(title = "Petal Width vs Petal Length")
 
 # Histogram
-ggplot(iris) + geom_histogram(aes(x=Sepal.Width), fill = "purple")
+ggplot(iris) +
+  geom_histogram(aes(x=Sepal.Width), fill = "purple") +
+  labs(title = "Sepal Width")
 
-ggplot(iris) + geom_histogram(aes(x=Sepal.Length), fill = "orange")
+ggplot(iris) +
+  geom_histogram(aes(x=Sepal.Length), fill = "orange") +
+  labs(title = "Sepal Length")
 
-ggplot(iris) + geom_histogram(aes(x=Petal.Width), fill = "cyan")
+ggplot(iris) +
+  geom_histogram(aes(x=Petal.Width), fill = "cyan") +
+  labs(title = "Petal Width")
 
-ggplot(iris) + geom_histogram(aes(x=Petal.Length), fill = "green")
+ggplot(iris) +
+  geom_histogram(aes(x=Petal.Length), fill = "green") +
+  labs(title = "Petal Length")
 
 # Relationship Sepal and Species
 ggplot(iris) +
   geom_point(aes(x=Sepal.Width, y=Sepal.Length, color=Species)) +
-  facet_wrap(~Species)
+  facet_wrap(~Species) +
+  labs(title = "Relationship Sepal and Species")
 
 # Relationship Petal and Species
 ggplot(iris) +
   geom_point(aes(x=Petal.Width, y=Petal.Length, color=Species)) +
-  facet_wrap(~Species)
-
-library(GGally)
+  facet_wrap(~Species) +
+  labs(title = "Relationship Petal and Species")
 
 # Pair Plot
 ggpairs(iris,
         columns = 1:4,
         aes(color = Species),
         upper = list(continuous = "points", combo = "box_no_facet"),
-        legend = 2
+        legend = 2,
+        title = "Relationship Between Features By Species"
         )
