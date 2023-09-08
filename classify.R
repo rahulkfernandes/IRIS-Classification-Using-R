@@ -81,31 +81,6 @@ randomFModel.testing.confusion <- confusionMatrix(randomFModel.testing,
 print(randomFModel.training.confusion)
 print(randomFModel.testing.confusion)
 
-########## Random Forest ##########
-ctrl <- trainControl(method="repeatedcv", repeats = 3)
-randomFModel <- train(Species ~ ., data = TrainingSet,
-                  method = "rf",
-                  trControl = ctrl,
-                  preProcess = c("scale", "center"),
-                  tuneLength = 20
-                  )
-
-# Prediction
-randomFModel.training <- predict(randomFModel, TrainingSet)
-randomFModel.testing <- predict(randomFModel, TestingSet)
-
-# Model Performance
-randomFModel.training.confusion <- confusionMatrix(randomFModel.training,
-                                               TrainingSet$Species
-                                               )
-randomFModel.testing.confusion <- confusionMatrix(randomFModel.testing,
-                                              TestingSet$Species
-                                              )
-
-# Print Confusion Matrix
-print(randomFModel.training.confusion)
-print(randomFModel.testing.confusion)
-
 ########## KNN ##########
 # Building the Model
 ctrl <- trainControl(method="repeatedcv", repeats = 3)
