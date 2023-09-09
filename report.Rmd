@@ -34,30 +34,32 @@ Descriptive statistics for Sepal Length by Species
 ```{r echo=FALSE}
 iris %>% 
   group_by(Species) %>% summarize(
-    mean(Sepal.Length), sd(Sepal.Length), min(Sepal.Length), max(Sepal.Length)
+    mean(Sepal.Length), sd(Sepal.Length)
     )
 ```
 Descriptive statistics for Sepal Width by Species
 ```{r echo=FALSE}
 iris %>% 
   group_by(Species) %>% summarize(
-    mean(Sepal.Width), sd(Sepal.Width), min(Sepal.Width), max(Sepal.Width)
+    mean(Sepal.Width), sd(Sepal.Width)
     )
 ```
 Descriptive statistics for Petal Length by Species
 ```{r echo=FALSE}
 iris %>% 
   group_by(Species) %>% summarize(
-    mean(Petal.Length), sd(Petal.Length), min(Petal.Length), max(Petal.Length)
+    mean(Petal.Length), sd(Petal.Length)
   )
 ```
 Descriptive statistics for Petal Width by Species
 ```{r echo=FALSE}
 iris %>% 
   group_by(Species) %>% summarize(
-    mean(Petal.Width), sd(Petal.Width), min(Petal.Width), max(Petal.Width)
+    mean(Petal.Width), sd(Petal.Width)
   )
 ```
+
+From the above, the dataset has three species of Iris flowers, Setosa, Versicolor and Virginica. There are 50 samples of each of these species, hence the dataset is balanced and there is no bias. In terms of Sepal Length, Virginica has the highest mean making it generally the on average. In terms of Sepal Width, Setosa has the highest mean making it generally bigger on average. In terms of Petal Width and Length, Virginica has the highest mean making it roughly the biggest species among the three.
 
 #### Relationship Between Sepal and Petal Features
 ```{r echo=FALSE}
@@ -98,6 +100,11 @@ ggpairs(iris,
         title = "Relationship Between Features by Species"
         )
 ```
+
+There is an overlap in Sepal features among the three Species and there is no overlap in Petal features among the three species. Theres is almost no overlap between features of the Setosa species, whereas there is overlap over features between Versicolor and Virginica species.
+
+#### Inference from Analysis
+From the above information, it can be inferred that Virginica is generally the biggest among the three species of the Iris flower and Setosa is the smallest. The relationship between the features and species shows that there is an overlap of features between Versicolor and Virginica. The mean and standard deviation of Sepal Width are similar among the three species. This might indicate that this feature might not be as important while trying to differentiate between the three species.
 
 ## Classification
 #### Splitting Dataset
