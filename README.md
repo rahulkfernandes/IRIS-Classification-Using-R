@@ -88,20 +88,20 @@ it roughly the biggest species among the three.
 
 #### Relationship Between Sepal and Petal Features
 
-![](report_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
-![](report_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
 #### Relationship Between Features and Species
 
-![](report_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
-![](report_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 There is an overlap in Sepal features among the three Species and there
 is no overlap in Petal features among the three species.
 
-![](report_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 From the above pair plot, there is almost no overlap between features of
 the Setosa species, whereas there is overlap over features between
@@ -202,7 +202,7 @@ print(svmModel.testing.confusion)
 
 #### Feature Importance
 
-![](report_files/figure-gfm/unnamed-chunk-15-1.png)<!-- --> From the
+![](README_files/figure-gfm/unnamed-chunk-15-1.png)<!-- --> From the
 above graph, the feature Sepal Width has the least importance in the
 model when classifying the three species of the Iris flower. Hence,
 proving the hypothesis made during analysis of the dataset.
