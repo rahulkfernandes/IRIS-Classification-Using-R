@@ -202,10 +202,11 @@ print(svmModel.testing.confusion)
 
 #### Feature Importance
 
-![](README_files/figure-gfm/unnamed-chunk-15-1.png)<!-- --> From the
-above graph, the feature Sepal Width has the least importance in the
-model when classifying the three species of the Iris flower. Hence,
-proving the hypothesis made during analysis of the dataset.
+![](README_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+
+From the above graph, the feature Sepal Width has the least importance
+in the model when classifying the three species of the Iris flower.
+Hence, proving the hypothesis made during analysis of the dataset.
 
 ## Conclusion
 
