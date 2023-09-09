@@ -99,11 +99,9 @@ ggpairs(iris,
         )
 ```
 
-## Inference From Analysis
-
 ## Classification
 #### Splitting Dataset
-80% of the data set is taken for training and the rest 20% is taken for testing the trained model
+The Dataset is split into two parts, training and testing, 80% of the dataset is used for training and the rest 20% is used for testing.
 ```{r}
 set.seed(100)
 
@@ -111,7 +109,7 @@ TrainingIndex <- createDataPartition(iris$Species, p=0.8, list = FALSE)
 TrainingSet <- iris[TrainingIndex,]
 TestingSet <- iris[-TrainingIndex,]
 ```
-
+#### Building the model
 ```{r}
 # Build Training Model
 svmModel <- train(Species ~ ., data = TrainingSet,
@@ -121,43 +119,21 @@ svmModel <- train(Species ~ ., data = TrainingSet,
                trControl= trainControl(method="none"),
                tuneGrid = data.frame(degree=1,scale=1,C=1)
                )
-
-# Build Cross Validation model
-svmModel.cv <- train(Species ~ ., data = TrainingSet,
-                  method = "svmPoly",
-                  na.action = na.omit,
-                  preProcess=c("scale","center"),
-                  trControl= trainControl(method="cv", number=10),
-                  tuneGrid = data.frame(degree=1,scale=1,C=1)
-                  )
+print(svmModel)
 ```
 
-```{r}
-svmModel.training <- predict(svmModel, TrainingSet)
-svmModel.cv <- predict(svmModel.cv, TrainingSet)
-svmModel.testing <- predict(svmModel, TestingSet)
-```
-
+#### Testing the model against the testing data
 ```{r}
 # Model performance
-svmModel.training.confusion <- confusionMatrix(svmModel.training,
-                                               TrainingSet$Species
-                                               )
-svmModel.cv.confusion <- confusionMatrix(svmModel.cv,
-                                         TrainingSet$Species
-                                         )
+svmModel.testing <- predict(svmModel, TestingSet)
 svmModel.testing.confusion <- confusionMatrix(svmModel.testing,
                                               TestingSet$Species
                                               )
-```
-
-```{r}
 # Print Confusion Matrix
-print(svmModel.training.confusion)
-print(svmModel.cv.confusion)
 print(svmModel.testing.confusion)
 ```
 
+#### Feature Importance
 ```{r echo=FALSE}
 # Feature importance
 Importance <- varImp(svmModel)

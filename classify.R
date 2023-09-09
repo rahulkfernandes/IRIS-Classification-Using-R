@@ -34,7 +34,7 @@ svmModel.cv <- train(Species ~ ., data = TrainingSet,
 # Prediction
 svmModel.training <- predict(svmModel, TrainingSet)
 svmModel.testing <- predict(svmModel, TestingSet)
-svmModel.cv <- predict(svmModel.cv, TrainingSet)
+svmModel.cv <- predict(svmModel.cv, TestingSet)
 
 # Model performance
 svmModel.training.confusion <- confusionMatrix(svmModel.training,
@@ -44,7 +44,7 @@ svmModel.testing.confusion <- confusionMatrix(svmModel.testing,
                                               TestingSet$Species
                                               )
 svmModel.cv.confusion <- confusionMatrix(svmModel.cv,
-                                         TrainingSet$Species
+                                         TestingSet$Species
                                          )
 
 # Print Confusion Matrix
