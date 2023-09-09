@@ -2,7 +2,7 @@
 title: "IRIS Classification"
 author: "Rahul Fernandes"
 date: "2023-09-08"
-output: html_document
+output: github_document
 ---
 
 ## Description
