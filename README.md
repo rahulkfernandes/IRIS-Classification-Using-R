@@ -7,7 +7,7 @@ Rahul Fernandes
 
 The IRIS Classification Using R repository conducts exploratory data
 analysis on the IRIS dataset and a Polynomial Support Vector Machine
-classification model is build to classify the three species of the Iris
+classification model is built to classify the three species of the Iris
 flower.
 
 ## Setting Up the Environment
